@@ -1,0 +1,6 @@
+{
+  "name":"amadeu-mosaic-studio","version":"0.4.0","private":true,"type":"module",
+  "engines":{"node":">=22.13"},
+  "scripts":{"start":"node --env-file-if-exists=.env server.mjs","test":"node --test tests/*.test.mjs","check":"node --check server.mjs && node --check core.mjs && node --check import.mjs && node --check ai.mjs && node --check store.mjs && node --check billing.mjs && node --check export.mjs && node --check plans.mjs && node --check pricing.mjs && node --check preview-sizing.mjs && node --check landing.mjs && node --check studio-ui.mjs && node --check app.js"},
+  "dependencies":{"cheerio":"1.2.0"}
+}

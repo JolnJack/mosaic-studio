@@ -1,0 +1,22 @@
+amadeu.tech {
+  encode zstd gzip
+  @workspace path /app /app/* /api/*
+  redir @workspace https://app.amadeu.tech{uri} 308
+  reverse_proxy studio:4173 {
+    header_up Host app.amadeu.tech
+  }
+}
+
+www.amadeu.tech {
+  redir https://amadeu.tech{uri} permanent
+}
+
+app.amadeu.tech {
+  encode zstd gzip
+  @root path /
+  redir @root /app 302
+  reverse_proxy studio:4173
+}
+
+# Keep APIs same-origin initially. Add api.amadeu.tech only after
+# configuring a deliberate cross-origin auth/CORS strategy.

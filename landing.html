@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fa">
+  <meta name="referrer" content="no-referrer">
+  <meta name="description" content="Mosaic Studio by Amadeu. Start with a public website or a brief, explore design directions, edit on a live canvas, and export your website.">
+  <title>Mosaic Studio by Amadeu — Your website. A new point of view.</title>
+  <link rel="stylesheet" href="/landing.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="navigation wrap">
+    <a class="brand" href="/" aria-label="Mosaic Studio by Amadeu home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Mosaic <b>Studio</b><small>BY AMADEU</small></span></a>
+    <nav aria-label="Main navigation"><a href="#examples">Examples</a><a href="#process">How it works</a><a href="#pricing">Pricing</a></nav>
+    <a class="nav-cta" href="/app">Open studio <span aria-hidden="true">↗</span></a>
+  </header>
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="heroHeading">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="accent-line" aria-hidden="true"></span> A WEBSITE STUDIO BY AMADEU</p>
+        <h1 id="heroHeading">Your website.<br>A new <em>point of view.</em></h1>
+        <p class="lede">Turn the content you have into a design you can shape. Bring a website or a brief, explore directions, then refine and export in Mosaic Studio.</p>
+        <a class="sample-link" href="/app"><span class="play-mark" aria-hidden="true">↗</span> Explore the sample editor <span aria-hidden="true">→</span></a>
+        <dl class="hero-facts"><div><dt>Start</dt><dd>Public URL or brief</dd></div><div><dt>Refine</dt><dd>Copy, layout &amp; theme</dd></div><div><dt>Export</dt><dd>HTML, React or JSON</dd></div></dl>
+      </div>
+      <div class="start-card" id="start">
+        <div class="start-heading"><span class="eyebrow">YOUR STARTING POINT</span><span class="step-chip">01 / START</span></div>
+        <h2>What are you working on?</h2>
+        <p class="start-intro">Bring the context. Make the decisions in the studio.</p>
+        <div class="start-tabs" role="tablist" aria-label="Choose your starting point">
+          <button type="button" id="urlTab" role="tab" aria-selected="true" aria-controls="startFields" data-start-mode="url">Redesign a website</button>
+          <button type="button" id="briefTab" role="tab" aria-selected="false" aria-controls="startFields" tabindex="-1" data-start-mode="brief">Start from a brief</button>
+        </div>
+        <!-- Dialog method prevents a native GET from leaking the brief if the module fails. -->
+        <form id="startForm" method="dialog" novalidate>
+          <div id="startFields" role="tabpanel" aria-labelledby="urlTab">
+            <div class="form-field" id="urlField">
+              <label for="startUrl">Website to redesign</label>
+              <input id="startUrl" name="url" type="url" required maxlength="2048" inputmode="url" autocomplete="url" spellcheck="false" placeholder="https://yourwebsite.com" aria-describedby="urlHelp urlError">
+              <p class="field-help" id="urlHelp">Use a public HTTP or HTTPS page. The studio checks its content before import.</p>
+              <p class="field-error" id="urlError" hidden></p>
+            </div>
+            <div class="form-field">
+              <label for="startBrief" id="briefLabel">What would you like to change? <span>(optional)</span></label>
+              <textarea id="startBrief" name="brief" rows="3" maxlength="8000" placeholder="A clearer homepage for our architecture practice. Keep the project stories; make the navigation simpler." aria-describedby="briefHelp briefError"></textarea>
+              <div class="field-meta"><p class="field-help" id="briefHelp">Audience, goals and visual direction.</p><span id="briefCount">0 / 8,000</span></div>
+              <p class="field-error" id="briefError" hidden></p>
+            </div>
+          </div>
+          <p class="form-error" id="startError" role="alert" hidden></p>
+          <button class="button button-primary" id="startSubmit" type="submit" disabled>Continue to studio</button>
+          <p class="handoff-note">Opens your starting details for review. No project is created, no AI request is sent, and no payment is started here.</p>
+        </form>
+        <noscript><p class="noscript-note">Enable JavaScript to carry your starting details into the studio, or <a href="/app">open the sample editor</a>.</p></noscript>
+        <details class="workspace-notice" aria-label="Workspace availability">
+          <summary><span id="workspaceStatus" role="status" aria-live="polite">Checking workspace availability…</span></summary>
+          <ul id="workspaceDetails" hidden><li id="authStatus"></li><li id="aiStatus"></li><li id="billingStatus"></li></ul>
+        </details>
+      </div>
+    </section>
+
+    <section id="examples" class="section examples-section" aria-labelledby="examplesHeading">
+      <div class="wrap">
+        <div class="section-intro"><div><p class="eyebrow">DESIGN IN CONTEXT</p><h2 id="examplesHeading">Different sites.<br>Distinct directions.</h2></div><div class="section-copy"><p>Explore three original sample websites. Open a preview to use its navigation and inspect it at desktop or mobile width.</p><span class="sample-tag">CURATED SAMPLES · NOT AI GENERATED</span></div></div>
+        <div class="sample-grid">
+          <article class="sample-card"><div class="preview-top"><span class="preview-dot" aria-hidden="true"></span><span>Morrow / Architecture</span><span>01</span></div><iframe data-sample="morrow" title="Morrow architecture curated sample website" sandbox="" loading="lazy" referrerpolicy="no-referrer"></iframe><div class="sample-caption"><div><h3>Morrow</h3><p>Architecture · structured &amp; editorial</p></div><button type="button" data-preview-open="morrow" aria-label="Open Morrow sample preview">Preview <span aria-hidden="true">↗</span></button></div></article>
+          <article class="sample-card"><div class="preview-top"><span class="preview-dot" aria-hidden="true"></span><span>Relay / Product</span><span>02</span></div><iframe data-sample="relay" title="Relay planning product curated sample website" sandbox="" loading="lazy" referrerpolicy="no-referrer"></iframe><div class="sample-caption"><div><h3>Relay</h3><p>Software · direct &amp; functional</p></div><button type="button" data-preview-open="relay" aria-label="Open Relay sample preview">Preview <span aria-hidden="true">↗</span></button></div></article>
+          <article class="sample-card"><div class="preview-top"><span class="preview-dot" aria-hidden="true"></span><span>Fold / Journal</span><span>03</span></div><iframe data-sample="fold" title="Fold independent journal curated sample website" sandbox="" loading="lazy" referrerpolicy="no-referrer"></iframe><div class="sample-caption"><div><h3>Fold</h3><p>Publishing · typographic &amp; expressive</p></div><button type="button" data-preview-open="fold" aria-label="Open Fold sample preview">Preview <span aria-hidden="true">↗</span></button></div></article>
+        </div>
+        <noscript><p class="noscript-note">Sample previews require JavaScript. <a href="/app">Explore the studio sample instead.</a></p></noscript>
+      </div>
+    </section>
+
+    <section class="section comparison-section wrap" aria-labelledby="comparisonHeading">
+      <div class="section-intro"><div><p class="eyebrow">A CHANGE IN HIERARCHY</p><h2 id="comparisonHeading">Same story.<br>A clearer first impression.</h2></div><div class="section-copy"><p>A simple page and a curated redesign for the fictional Morrow practice. Compare the reading order, navigation and project presentation.</p><span class="sample-tag">ILLUSTRATIVE BEFORE / AFTER · NO CUSTOMER CLAIM</span></div></div>
+      <div class="comparison-grid">
+        <figure><figcaption><span>Before</span><small>Plain content layout</small></figcaption><iframe data-sample="morrow" data-before="true" title="Illustrative Morrow before layout" sandbox="" loading="lazy" referrerpolicy="no-referrer"></iframe></figure>
+        <figure><figcaption><span>After</span><small>Curated design direction</small></figcaption><iframe data-sample="morrow" title="Illustrative Morrow after layout" sandbox="" loading="lazy" referrerpolicy="no-referrer"></iframe></figure>
+      </div>
+      <p class="comparison-note">Both views are authored examples. This is not a result from importing a customer website or a promise of AI output quality.</p>
+    </section>
+
+    <section id="process" class="section process-section" aria-labelledby="processHeading">
+      <div class="wrap"><div class="section-intro"><div><p class="eyebrow">FROM CONTEXT TO CODE</p><h2 id="processHeading">A workflow you control.</h2></div><p class="section-copy">Review the input, choose a direction, and work on the actual page. Each step has a clear next action.</p></div>
+        <ol class="process-grid">
+          <li><span class="step-number">01</span><h3>Bring your context</h3><p>Enter a brief or public URL. In the studio, review your starting details and any imported content before using them.</p></li>
+          <li><span class="step-number">02</span><h3>Choose a direction</h3><p>Explore built-in samples. With a connected model and workspace access, explicitly request three design variants from your brief.</p></li>
+          <li><span class="step-number">03</span><h3>Refine the page</h3><p>Edit copy, colors, typography and section layouts. Add pages and sections, undo changes, and check responsive previews.</p></li>
+          <li><span class="step-number">04</span><h3>Take the code</h3><p>Export HTML, a runnable React archive, or the design document. Deployment, hosting and domains are handled outside Mosaic.</p></li>
+        </ol>
+      </div>
+    </section>
+
+    <section class="section capabilities-section wrap" aria-labelledby="capabilitiesHeading">
+      <div class="capabilities-heading"><p class="eyebrow">BEYOND THE FIRST DRAFT</p><h2 id="capabilitiesHeading">Keep your hands<br>on the details.</h2><a class="text-link" href="/app">Try the real editor <span aria-hidden="true">↗</span></a></div>
+      <div class="capabilities-list">
+        <article><span aria-hidden="true">01</span><div><h3>Visual editing, on the live page</h3><p>Select a section and change its content or theme in the inspector. The canvas renders the design document you are editing.</p></div></article>
+        <article><span aria-hidden="true">02</span><div><h3>Model assistance, when connected</h3><p>Ask for a design change after choosing a project. AI calls use the configured provider and reported usage allowance. Manual sample editing needs no model.</p></div></article>
+        <article><span aria-hidden="true">03</span><div><h3>Versions and portable output</h3><p>Workspace access enables saved projects and versions. Export a page or a complete HTML or React project; structured JSON keeps the design portable.</p></div></article>
+      </div>
+    </section>
+
+    <section id="pricing" class="section pricing-section" aria-labelledby="pricingHeading">
+      <div class="wrap">
+        <div class="section-intro"><div><p class="eyebrow">PLANS &amp; AVAILABILITY</p><h2 id="pricingHeading">Start with Free.<br>Choose more when you need it.</h2></div><p class="section-copy">Free, Pro, Studio and Business. Allowances and checkout availability below come from this workspace. Paid plans are recurring subscriptions.</p></div>
+        <div class="pricing-bar"><span>COMPARE FOUR PLANS</span><div id="pricingInterval"></div></div>
+        <div id="pricingCards" class="pricing-grid" aria-label="Subscription plans"></div>
+        <p id="pricingStatus" class="pricing-status" role="status" aria-live="polite">Loading plans and availability from the server…</p>
+        <p class="pricing-footnote">The final price, currency, taxes and renewal terms are shown at Stripe checkout before confirmation. Manage an existing subscription in <a href="/app?plans=1">Plan &amp; usage</a>. Model-provider charges may also apply to the configured workspace.</p>
+        <noscript><p class="noscript-note">Enable JavaScript for current plan details and availability. <a href="/app">Open the studio</a> to explore the sample.</p></noscript>
+      </div>
+    </section>
+
+    <section id="faq" class="section faq-section wrap" aria-labelledby="faqHeading">
+      <div><p class="eyebrow">BEFORE YOU START</p><h2 id="faqHeading">Clear expectations.</h2></div>
+      <div class="faq-list">
+        <details><summary>What happens when I continue to the studio?</summary><p>Your URL and brief travel in the address fragment, not a query string, for review in the studio. Continuing does not create a project, import a URL, call a model or start checkout. Once you choose an import or AI action, the relevant content is sent to the workspace server and, for AI, its configured provider. Avoid including passwords or private credentials.</p></details>
+        <details><summary>Can I try Mosaic without an account?</summary><p>You can explore and manually edit the labeled sample in your browser tab. Server saving, URL import, AI requests and API exports require a signed-in account or an explicitly enabled local workspace session. Availability is reported above; an anonymous sample is not a saved project.</p></details>
+        <details><summary>Will a URL import reproduce my entire website?</summary><p>The importer reads public static HTML and extracts readable content with its source. It does not run the site's scripts or copy the original design. Script-heavy pages may provide incomplete content. Public DNS addresses and redirects are checked by the server when you explicitly import.</p></details>
+        <details><summary>Are the examples generated by AI?</summary><p>No. The three preview websites and the before/after comparison are original, curated examples for fictional projects. They are illustrative, not customer results. AI generation in the studio requires a connected model, workspace access and an explicit request.</p></details>
+        <details><summary>Is AI generation free?</summary><p>Exploring the sample and entering a starting brief do not call a model. AI generation uses the workspace's configured provider and reported allowance; provider costs may apply. Paid subscriptions are recurring and become available only when billing is configured. Review the plan and checkout terms before confirming a purchase.</p></details>
+        <details><summary>Does Mosaic host or publish my site?</summary><p>Mosaic exports HTML, a React project or the structured design document. You arrange deployment, hosting and a custom domain separately. An export is not a published website.</p></details>
+      </div>
+    </section>
+    <section class="closing-section wrap"><div><p class="eyebrow">YOUR NEXT DESIGN STARTS HERE</p><h2>Bring the content.<br><em>Make the choices.</em></h2></div><a class="button button-dark" href="#start">Choose your starting point <span aria-hidden="true">↑</span></a></section>
+  </main>
+  <footer class="footer wrap"><a class="brand" href="/">Mosaic <b>Studio</b><span class="footer-byline">by Amadeu</span></a><p>A website studio for design, editing and export.</p><nav aria-label="Footer navigation"><a href="#pricing">Pricing</a><a href="#faq">FAQ</a><a href="/app">Open studio ↗</a></nav><small>© 2026 Amadeu</small></footer>
+
+  <dialog class="sample-dialog" id="sampleDialog" aria-labelledby="sampleDialogTitle" aria-describedby="sampleDialogNote">
+    <div class="dialog-bar"><div><h2 id="sampleDialogTitle">Sample preview</h2><p id="sampleDialogNote">Original curated example · not AI generated</p></div><div class="preview-devices" role="group" aria-label="Sample preview width"><button type="button" data-preview-device="desktop" aria-pressed="true">Desktop</button><button type="button" data-preview-device="mobile" aria-pressed="false">Mobile</button></div><button type="button" id="closeSample" class="dialog-close" aria-label="Close sample preview">×</button></div>
+    <div class="dialog-canvas"><iframe id="sampleDialogFrame" title="Interactive curated sample preview" sandbox="" referrerpolicy="no-referrer"></iframe></div>
+    <div class="dialog-footer"><span>Use the sample navigation and scroll to explore.</span><a href="/app">Explore Mosaic’s real editor <span aria-hidden="true">↗</span></a></div>
+  </dialog>
+  <script type="module" src="/landing.mjs"></script>
+  <script type="module" src="/pricing.mjs"></script>
+</body>
+</html>

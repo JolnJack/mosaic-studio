@@ -1,0 +1,32 @@
+services:
+  studio:
+    build: .
+    env_file: .env
+    environment:
+      NODE_ENV: production
+      LOCAL_WORKSPACE: '0'
+      HOST: 0.0.0.0
+      APP_URL: https://app.amadeu.tech
+      DATA_DIR: /app/data
+    volumes:
+      - studio_data:/app/data
+    expose:
+      - '4173'
+    restart: unless-stopped
+    init: true
+  gateway:
+    image: caddy:2
+    ports:
+      - '80:80'
+      - '443:443'
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - studio
+    restart: unless-stopped
+volumes:
+  studio_data:
+  caddy_data:
+  caddy_config:
