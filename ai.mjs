@@ -1,5 +1,5 @@
 import { validateDocument, compositionSignature } from './core.mjs';
-import { problem } from './store.mjs';
+import { problem } from './store-core.mjs';
 
 export const AI_TIMEOUT_MS = 60_000;
 export const MAX_MODEL_BYTES = 512 * 1024;

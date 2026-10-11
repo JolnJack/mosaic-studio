@@ -72,7 +72,7 @@ export function workspaceNotice(config) {
   const c = config && typeof config === 'object' ? config : {};
   return {
     auth: c.localMode === true ? 'A local workspace session is available in the studio for saving and server actions.'
-      : c.localMode === false ? `Sign in for saving, import and AI.${c.registrationEnabled === false ? ' New account registration is unavailable here.' : ''}`
+      : c.localMode === false ? `Sign in to save projects.${c.urlImportConfigured === false ? ' URL import is unavailable on this hosted beta; start with a design brief and manual editing.' : ''}${c.registrationEnabled === false ? ' New account registration is unavailable here.' : ''}`
         : 'Workspace sign-in availability is not verified. Check in the studio before server actions.',
     ai: c.aiConfigured === true ? 'A model is connected. AI requests use the workspace allowance; provider costs may apply.'
       : c.aiConfigured === false ? 'AI is not connected. You can still explore and manually edit the sample.'
@@ -225,7 +225,8 @@ function initializeLanding() {
       config.localMode === true ? 'Local session available' : config.localMode === false ? 'Sign-in required' : 'Access not verified',
       config.aiConfigured === true ? 'AI connected' : config.aiConfigured === false ? 'AI not connected' : 'AI not verified',
       config.billingConfigured === true ? 'See paid plans' : config.billingConfigured === false ? 'Checkout unavailable' : 'Billing not verified',
-    ].join(' · ') : heading;
+      config.urlImportConfigured === false ? 'URL import unavailable' : '',
+    ].filter(Boolean).join(' · ') : heading;
     get('authStatus').textContent = notice.auth;
     get('aiStatus').textContent = notice.ai;
     get('billingStatus').textContent = notice.billing;

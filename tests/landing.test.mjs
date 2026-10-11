@@ -93,6 +93,7 @@ test('configuration notice distinguishes enabled, disabled and unreported state'
   assert.match(unknown.billing, /not verified/i);
   assert.match(unknown.auth, /not verified/i);
   assert.match(landing.workspaceNotice({ aiConfigured: 'true' }).ai, /not verified/i);
+  assert.match(landing.workspaceNotice({ localMode: false, urlImportConfigured: false }).auth, /URL import is unavailable.*design brief/i);
 });
 
 test('three original sample documents work without remote assets, scripts or claimed customer proof', () => {

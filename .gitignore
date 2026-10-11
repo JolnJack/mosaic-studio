@@ -1,4 +1,7 @@
 node_modules/
+.worker-assets/
+.wrangler/
+.dev.vars
 data/
 .env
 *.sqlite*

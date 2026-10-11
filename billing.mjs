@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 import { boundedJSON } from './ai.mjs';
-import { hashToken, problem } from './store.mjs';
+import { hashToken, problem } from './store-core.mjs';
 import { createPlanCatalog, publicPlans, BILLING_INTERVALS } from './plans.mjs';
 
 const stripeId = (value, prefix) => typeof value === 'string' && new RegExp(`^${prefix}_[A-Za-z0-9]{1,200}$`).test(value);

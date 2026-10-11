@@ -72,6 +72,26 @@ npm test
 npm run check
 ```
 
-详细测试证据见 TEST-REPORT.md；域名规划、Docker Compose、Caddy 和运行边界见 DEPLOYMENT.md。amadeu.tech 作为官网，app.amadeu.tech 作为工作台；API 初期同源，api.amadeu.tech 保留作后续拆分。
+详细测试证据见 TEST-REPORT.md；历史域名规划、Docker Compose、Caddy 和运行边界见 DEPLOYMENT.md。当前公开 Beta 首页为 https://app.amadeu.tech/，工作台为 https://app.amadeu.tech/app；根域 amadeu.tech 保留原有简历项目，API 初期同源，api.amadeu.tech 尚未部署。
 
-工程文件不代表服务器、DNS、HTTPS 或支付已上线。公开商业运营之前，仍需真实模型质量评估、邮件验证与密码找回、JavaScript 网站解析、高并发/滥用测试、监控、备份与安全审查。SQLite 当前适用于单实例部署。
+工程文件本身不代表服务器、DNS、HTTPS 或支付已上线。公开商业运营之前，仍需真实模型质量评估、邮件验证与密码找回、JavaScript 网站解析、高并发/滥用测试、备份与安全审查。Node SQLite 通道适用于单实例；新增的 Workers 通道使用每账户独立的 SQLite Durable Object。
+
+## Cloudflare 免费托管通道（2026-10-11）
+
+配置使用 `app.amadeu.tech`，API 初期同源，不购买 VPS，不升级 Workers 套餐。现有 `amadeu.tech` 简历原型和邮箱解析保留；首期 Mosaic 首页与工作台分别为该子域的 `/` 与 `/app`。真实发布状态以 TEST-REPORT.md 最新记录为准，不把配置当成上线。
+
+```sh
+npm ci
+npm test
+npm run check
+npm run worker:check
+npm run worker:test
+# 仅在自己已授权的 Cloudflare Free 账户中发布：
+npm run worker:deploy
+```
+
+Wrangler 已锁定版本；构建仅复制 11 个前端文件，禁止把后端、数据库、配置密钥和源码包作为静态文件公开。账户数据、版本、会话和用量保存在 SQLite Durable Object；IP 与账户限额、并发租约和定位凭据也持久化，不依赖单次进程内存。定位 Cookie 不是登录凭据，仍须独立的随机会话校验。
+
+2026-10-11 已实际发布上述公开 Beta，公网账户、保存、版本恢复、导出和重新登录后重开通过核验。生产环境安全 URL 导入实测失败，因此 URL_IMPORT_ENABLED=0，返回 503 IMPORT_UNAVAILABLE，前端明确提示使用 Design brief；不会关闭 TLS 校验或失去固定公网 IP 的安全保证。Node 本地导入路径保留，workerd 本地测试显式启用导入只用于兼容测试，不是生产成功证明。这不是完整浏览器渲染服务。
+
+当前不配置付费模型或 Stripe 密钥；样例、结构化编辑、保存与导出不需要购买额度。未来客户收费档位保留，但当前不能真实购买或声称已接入付费 Claude。免费套餐达到限额会停用相关能力，不自动升级；正式收费运营前仍须验证模型质量、真实支付、邮件验证、找回密码与灾备恢复。

@@ -180,11 +180,14 @@ function createProjectDialog(copySample=false){
  const sync=()=>{draft.name=name.value;draft.url=url.value;draft.brief=brief.value;};for(const input of [name,url,brief])input.addEventListener('input',sync);
  let submit;
  const paint=()=>{
+  const importUnavailable=draft.mode==='url'&&state.config?.urlImportConfigured===false&&!draft.importedSource&&!draft.createdProject;
   url.parentElement.hidden=draft.mode!=='url';url.required=draft.mode==='url';url.disabled=draft.mode!=='url'||!!draft.createdProject;
   for(const b of modes.children){b.setAttribute('aria-pressed',String(b.dataset.mode===draft.mode));b.disabled=!!draft.createdProject;}
   name.disabled=brief.disabled=!!draft.createdProject;
   status.textContent=draft.createdProject?'Project created. Your draft is retained; retry saving this project.':draft.mode==='url'&&draft.importedSource?'Content imported. Retry creating the project; the successful import is retained.':draft.mode==='url'?'Imports readable public-page content. No scripts are run. The server verifies public network access.':'Create an editable project from a name and optional brief.';
   submit.textContent=!state.user?'Sign in to continue':draft.createdProject?'Retry save':draft.mode==='url'?'Create & import':'Create project';
+  if(importUnavailable)status.textContent='Safe URL import is unavailable on this hosted beta. Select Design brief to create a project and edit it manually.';
+  submit.disabled=importUnavailable;
  };
  for(const [mode,label] of [['url','Website URL'],['brief','Design brief']]){const b=button(label,'start-mode',()=>{sync();draft.mode=mode;paint();});b.dataset.mode=mode;modes.append(b);}
  submit=submitForm(form,'Create project',async()=>{
@@ -269,7 +272,13 @@ $('#compareDesigns').onclick=compareDialog;$('#previewButton').onclick=previewDi
 for(const [id,mode] of [['startFromURL','url'],['startFromBrief','brief']])$( `#${id}`).onclick=()=>{if(state.busy)return;if(!startDraft)startDraft={mode,name:'',brief:'',url:'',error:''};else if(!startDraft.createdProject)startDraft.mode=mode;createProjectDialog();};
 $('#addPage').onclick=()=>pageDialog();$('#addBlock').onclick=addBlockDialog;$('#pageSelect').onchange=event=>selectPage(event.target.value);$('#undo').onclick=()=>undo();$('#redo').onclick=()=>undo(true);$('#exportButton').onclick=exportDialog;
 $('#briefInput').maxLength=8000;$('#chatInput').maxLength=4000;
-$('#briefInput').addEventListener('input',event=>{mutate(p=>p.brief=event.target.value,'project.brief');});$('#briefInput').addEventListener('blur',()=>state.current.lastEdit=null);$('#expandComposer').onclick=()=>{const expanded=$('#composer').classList.toggle('expanded');$('#expandComposer').setAttribute('aria-expanded',String(expanded));$('#expandComposer').setAttribute('aria-label',expanded?'Collapse design brief':'Expand design brief');};$('#importSource').onclick=importDialog;$('#viewSource').onclick=showSource;$('#generateButton').onclick=generate;$('#chatForm').onsubmit=chat;$('#saveVersion').onclick=versionDialog;
+function hostedImportDialog(){
+ if(state.config?.urlImportConfigured!==false){importDialog();return;}
+ const body=modal('URL import is unavailable','HOSTED BETA');
+ body.append(paragraph('The safe importer could not be verified on this hosting platform. No external request is made. You can create a project from a design brief, edit the sample designs, save versions and export code.'));
+ body.append(button('Create from a design brief','button button-purple',()=>{if(!startDraft)startDraft={mode:'brief',name:'My studio',brief:project().brief||'',url:'',error:''};else if(!startDraft.createdProject)startDraft.mode='brief';createProjectDialog();}));
+}
+$('#briefInput').addEventListener('input',event=>{mutate(p=>p.brief=event.target.value,'project.brief');});$('#briefInput').addEventListener('blur',()=>state.current.lastEdit=null);$('#expandComposer').onclick=()=>{const expanded=$('#composer').classList.toggle('expanded');$('#expandComposer').setAttribute('aria-expanded',String(expanded));$('#expandComposer').setAttribute('aria-label',expanded?'Collapse design brief':'Expand design brief');};$('#importSource').onclick=hostedImportDialog;$('#viewSource').onclick=showSource;$('#generateButton').onclick=generate;$('#chatForm').onsubmit=chat;$('#saveVersion').onclick=versionDialog;
 $$('[data-tab]').forEach(b=>{b.onclick=()=>setTab(b.dataset.tab);b.addEventListener('keydown',event=>{if(!['ArrowLeft','ArrowRight','Home','End'].includes(event.key))return;event.preventDefault();const tabs=$$('[data-tab]'),index=tabs.indexOf(b);const next=event.key==='Home'?0:event.key==='End'?tabs.length-1:(index+(event.key==='ArrowRight'?1:tabs.length-1))%tabs.length;setTab(tabs[next].dataset.tab);tabs[next].focus();});});
 $$('[data-device]').forEach(b=>b.onclick=()=>{state.device=b.dataset.device;$('#canvasViewport').dataset.device=state.device;$('#deviceSize').textContent=state.device==='desktop'?'Responsive':state.device==='tablet'?'768px':'390px';$$('[data-device]').forEach(x=>{x.classList.toggle('active',x===b);x.setAttribute('aria-pressed',String(x===b));});});
 window.addEventListener('message',event=>{if(event.source!==$('#previewFrame').contentWindow||event.origin!=='null'||state.busy)return;const message=event.data;if(!message||message.type!=='mosaic-select'||typeof message.sectionId!=='string'||typeof message.field!=='string')return;if(!page().sections.some(s=>s.id===message.sectionId))return;state.sectionId=message.sectionId;state.current.sectionId=message.sectionId;state.current.lastEdit=null;renderLayers();renderInspector();setTab('design');openInspector(true);const path=message.field==='button'?'button.label':message.field;const fieldInput=$$('#designControls [data-path]').find(el=>el.dataset.path===`section.${message.sectionId}.${path}`);if(fieldInput){fieldInput.focus();fieldInput.scrollIntoView({block:'nearest'});}});
@@ -279,6 +288,7 @@ render();setTab('design');
 const initialStart=consumeStartHash();window.addEventListener('hashchange',consumeStartHash);
 const initialization=await Promise.allSettled([api('/api/config'),api('/api/me')]);
 if(initialization[0].status==='fulfilled')state.config=initialization[0].value;else notice('The backend is unavailable. You can explore and manually edit the labeled sample; server saving and AI require a working connection.',true);
+if(state.config?.urlImportConfigured===false)notice('Hosted beta: URL import is unavailable. Use Design brief and manual editing. AI generation and checkout are not connected.');
 if(initialization[1].status==='fulfilled'){state.user=initialization[1].value.user;state.usage=initialization[1].value.usage;}renderAccount();renderProjects();if(state.user){try{await loadProjects();}catch(error){report(error);}}
 if($('#modal').classList.contains('modal-start')&&$('#modal').open)createProjectDialog();
 else if(!initialStart&&!$('#modal').open){if(new URLSearchParams(location.search).has('billing')||new URLSearchParams(location.search).get('plans')==='1')billingDialog();else if(!state.user||!state.projects.length)createProjectDialog();}
